@@ -12,9 +12,11 @@ export const isAuthenticated = async (
 ) => {
   try {
     const authQuery = `SELECT * FROM user_token WHERE token=$1`;
-    const authHeader = req.header("Authorization");
-    const token = authHeader ? authHeader.replace("Bearer ", "") : null;
-    const value: any[] = [token];
+
+    const token = req.rawHeaders[3];
+    const parts = token.split(" ");
+    const tokenValue = parts[1];
+    const value: any[] = [tokenValue];
     const data: QueryResult<any> = await client.query(authQuery, value);
 
     if (data.rowCount === null) {
@@ -26,7 +28,7 @@ export const isAuthenticated = async (
         .json({ status: false, message: "Unauthorized user!" });
     }
     const userId = data.rows[0].fk_user;
-    const userQuery = `SELECT * FROM users WHERE id = $1`;
+    const userQuery = `SELECT * FROM users WHERE user_id=$1`;
     const userQueryParams = [userId];
     const userQueryData = await client.query(userQuery, userQueryParams);
 

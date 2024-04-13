@@ -69,7 +69,10 @@ const signin = async (req: Request, res: Response) => {
       });
     }
   } catch (err: any) {
-    return res.status(400).json({ status: false, message: err.message });
+    return res.status(400).json({
+      status: false,
+      message: err.message,
+    });
   }
 };
 

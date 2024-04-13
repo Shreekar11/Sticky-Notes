@@ -31,3 +31,12 @@ create table admin_token(
     created_at timestamp,
     constraint fk_admin foreign key(fk_admin) references admins(admin_id) on delete cascade on update cascade
 );
+
+create table notes(
+    note_id serial primary key,
+    fk_user int,
+    title varchar(255) not null,
+    content varchar(255) not null,
+    visibility varchar(50) not null,
+    created_at timestamp
+);

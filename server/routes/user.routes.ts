@@ -1,4 +1,4 @@
-import express, {Router} from "express";
+import express, { Router } from "express";
 const { signup } = require("../controllers/user.controller");
 const { signin } = require("../controllers/user.controller");
 
