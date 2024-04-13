@@ -1,5 +1,4 @@
 import express, { Request, Response, Application, urlencoded } from "express";
-import { client } from "../models/db";
 require("dotenv").config();
 const cors = require("cors");
 
