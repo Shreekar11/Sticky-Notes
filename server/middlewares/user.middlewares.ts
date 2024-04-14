@@ -12,11 +12,9 @@ export const isAuthenticated = async (
 ) => {
   try {
     const authQuery = `SELECT * FROM user_token WHERE token=$1`;
-
-    const token = req.rawHeaders[3];
-    const parts = token.split(" ");
-    const tokenValue = parts[1];
-    const value: any[] = [tokenValue];
+    const authHeader = req.header("Authorization");
+    const token = authHeader ? authHeader.replace("Bearer ", "") : null;
+    const value: any[] = [token];
     const data: QueryResult<any> = await client.query(authQuery, value);
 
     if (data.rowCount === null) {
@@ -31,7 +29,7 @@ export const isAuthenticated = async (
     const userQuery = `SELECT * FROM users WHERE user_id=$1`;
     const userQueryParams = [userId];
     const userQueryData = await client.query(userQuery, userQueryParams);
-
+    console.log(userQueryData.rows[0])
     req.user = userQueryData.rows[0];
     req.token = token;
     next();
@@ -39,7 +37,6 @@ export const isAuthenticated = async (
 };
 export const generateUserToken = async (user_id: number) => {
   try {
-    console.log(user_id);
     const timestamp = new Date();
     const key = process.env.TOKEN_SECRET || "default_secret_token";
     const token = jwt.sign({ id: user_id }, key, { expiresIn: "24h" });

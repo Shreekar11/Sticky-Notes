@@ -37,6 +37,7 @@ create table notes(
     fk_user int,
     title varchar(255) not null,
     content varchar(255) not null,
-    visibility varchar(50) not null,
-    created_at timestamp
+    privacy varchar(50) not null,
+    created_at timestamp,
+    updated_at timestamp
 );
