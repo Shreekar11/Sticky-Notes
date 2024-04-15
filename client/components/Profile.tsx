@@ -13,7 +13,8 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       const response = await api.post("/user/logout");
-      console.log(response);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       toast.success(response.data.message);
       router.push("/login");
     } catch (err) {
