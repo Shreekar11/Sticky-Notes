@@ -1,5 +1,6 @@
 import { client } from "../models/db";
 import { QueryResult } from "pg";
+import { ReqMid } from "../types/user";
 
 const getAllNotes = async (req: any, res: any) => {
   try {
@@ -17,6 +18,31 @@ const getAllNotes = async (req: any, res: any) => {
   }
 };
 
+const getUserNotes = async (req: ReqMid, res: any) => {
+  const userId = req.user.user_id;
+  console.log(userId);
+
+  try {
+    const getQuery: string = "SELECT * FROM notes WHERE fk_user=$1";
+    const result: QueryResult<any> = await client.query(getQuery, [userId]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "Note not found",
+      });
+    }
+    console.log(result.rows);
+    res.status(200).json({
+      status: true,
+      data: result.rows,
+      message: `Retrived note with id ${userId}`,
+    });
+  } catch (err: any) {
+    res.status(500).json({ status: false, message: "Internal Server Error" });
+    console.log("Error: ", err);
+  }
+};
+
 const getNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
   console.log(noteId);
@@ -24,11 +50,11 @@ const getNote = async (req: any, res: any) => {
   try {
     const getQuery: string = "SELECT * FROM notes WHERE note_id=$1";
     const result: QueryResult<any> = await client.query(getQuery, [noteId]);
-    if(result.rowCount === 0){
+    if (result.rowCount === 0) {
       return res.status(404).json({
         status: false,
         message: "Note not found",
-      })
+      });
     }
     console.log(result.rows);
     res.status(200).json({
@@ -115,6 +141,8 @@ const editPrivacy = async (req: any, res: any) => {
   const noteId = req.params.noteId;
   const { privacy } = req.body;
 
+  console.log(req.body);
+
   try {
     const noteQuery: string = "SELECT * FROM notes WHERE note_id=$1";
     const noteValue: any[] = [noteId];
@@ -153,4 +181,40 @@ const editPrivacy = async (req: any, res: any) => {
   }
 };
 
-module.exports = { createNote, editNote, getAllNotes, getNote, editPrivacy };
+const deleteNote = async (req: ReqMid, res: any) => {
+  const noteId = req.params.noteId;
+  try {
+
+    const noteQuery: string = "SELECT * FROM notes WHERE note_id=$1";
+    const noteValue: any[] = [noteId];
+    const noteResult: QueryResult<any> = await client.query(
+      noteQuery,
+      noteValue
+    );
+
+    const deleteQuery: string = "DELETE FROM notes WHERE note_id=$1";
+    const result: QueryResult<any> = await client.query(deleteQuery, [noteId]);
+
+    res.status(200).json({
+      status: true,
+      data: noteResult.rows[0],
+      message: "Note Deleted Successfully!",
+    })
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: "Internal server error",
+    })
+    console.log("Error: ", err);
+  }
+}
+
+module.exports = {
+  createNote,
+  editNote,
+  getAllNotes,
+  getUserNotes,
+  getNote,
+  editPrivacy,
+  deleteNote,
+};

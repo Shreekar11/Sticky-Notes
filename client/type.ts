@@ -19,6 +19,15 @@ export type UserCredential = {
   user: UserData;
 };
 
+export type NoteData = {
+  note_id: number;
+  title: string;
+  content: string;
+  privacy: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export type AuthContextType = {
   authState: UserCredential;
   setUserAuthInfo: (data: UserCredential) => void;
