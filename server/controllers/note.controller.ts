@@ -64,13 +64,10 @@ const editNote = async (req: any, res: any) => {
 
     const timestamp: string = new Date().toISOString();
 
-    console.log("Entered Here");
     const editNoteQuery: string =
       "UPDATE notes SET title=$1, content=$2, privacy=$3, updated_at=$4 WHERE note_id=$5";
     const values: any[] = [title, content, privacy, timestamp, noteId];
     const result: QueryResult<any> = await client.query(editNoteQuery, values);
-
-    console.log("Finished");
 
     res.status(200).json({
       status: true,
@@ -89,4 +86,46 @@ const editNote = async (req: any, res: any) => {
   }
 };
 
-module.exports = { createNote, editNote, getAllNotes };
+const editPrivacy = async (req: any, res: any) => {
+  const noteId = req.params.noteId;
+  const { privacy } = req.body;
+
+  try {
+    const noteQuery: string = "SELECT * FROM notes WHERE note_id=$1";
+    const noteValue: any[] = [noteId];
+    const noteResult: QueryResult<any> = await client.query(
+      noteQuery,
+      noteValue
+    );
+
+    if (noteResult.rowCount == 0) {
+      return res.status(404).json({
+        status: false,
+        message: "Note not found",
+      });
+    }
+
+    const updateQuery: string = "UPDATE notes SET privacy=$1 WHERE note_id=$2";
+    const updateValues: any[] = [privacy, noteId];
+    const updateResult: QueryResult<any> = await client.query(
+      updateQuery,
+      updateValues
+    );
+
+    res.status(200).json({
+      status: true,
+      note: {
+        note_id: noteId,
+        title: noteResult.rows[0].title,
+        content: noteResult.rows[0].content,
+        privacy,
+        created_at: noteResult.rows[0].created_at,
+        updated_at: noteResult.rows[0].updated_at,
+      },
+    });
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+module.exports = { createNote, editNote, getAllNotes, editPrivacy };
