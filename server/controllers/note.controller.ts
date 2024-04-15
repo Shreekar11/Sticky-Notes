@@ -17,6 +17,31 @@ const getAllNotes = async (req: any, res: any) => {
   }
 };
 
+const getNote = async (req: any, res: any) => {
+  const noteId = req.params.noteId;
+  console.log(noteId);
+
+  try {
+    const getQuery: string = "SELECT * FROM notes WHERE note_id=$1";
+    const result: QueryResult<any> = await client.query(getQuery, [noteId]);
+    if(result.rowCount === 0){
+      return res.status(404).json({
+        status: false,
+        message: "Note not found",
+      })
+    }
+    console.log(result.rows);
+    res.status(200).json({
+      status: true,
+      data: result.rows,
+      message: `Retrived note with id ${noteId}`,
+    });
+  } catch (err: any) {
+    res.status(500).json({ status: false, message: "Internal Server Error" });
+    console.log("Error: ", err);
+  }
+};
+
 const createNote = async (req: any, res: any) => {
   const { title, content, privacy } = req.body;
 
@@ -128,4 +153,4 @@ const editPrivacy = async (req: any, res: any) => {
   }
 };
 
-module.exports = { createNote, editNote, getAllNotes, editPrivacy };
+module.exports = { createNote, editNote, getAllNotes, getNote, editPrivacy };

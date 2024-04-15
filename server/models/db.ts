@@ -3,11 +3,11 @@ require('dotenv').config();
 
 export const client = new Client(
     {
-        host: "localhost" || process.env.HOST,
-        user: "postgres" || process.env.USER,
+        host: process.env.HOST,
+        user: process.env.USER,
         port: 5432,
-        password: "Shreekar@11" || process.env.PASSWORD,
-        database: "sticky-note-db" || process.env.DB,
+        password: process.env.PASSWORD,
+        database: process.env.DB,
         // ssl:{
         //     rejectUnauthorized:false
         // }
