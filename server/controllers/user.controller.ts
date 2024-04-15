@@ -3,6 +3,7 @@ import { client } from "../models/db";
 import { QueryResult } from "pg";
 import bcrypt from "bcryptjs";
 import { generateUserToken } from "../middlewares/user.middlewares";
+import { ReqMid } from "../types/user";
 
 const signup = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -76,4 +77,27 @@ const signin = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = { signup, signin };
+const logout = async (req: ReqMid, res: any) => {
+  if (!req.token) {
+    return res.status(404).json({ error: "You are already logged out" });
+  }
+
+  console.log(req.token);
+
+  try {
+    const removeUser: string = "DELETE FROM user_token WHERE token = $1";
+    const value: any[] = [req.token];
+    const result: QueryResult<any> = await client.query(removeUser, value);
+
+    return res.status(200).json({
+      status: true,
+      message: "User logged out successfully!",
+    });
+  } catch (err: any) {
+    return res
+      .status(500)
+      .json({ error: "An error occurred while logging out" });
+  }
+};
+
+module.exports = { signup, signin, logout };

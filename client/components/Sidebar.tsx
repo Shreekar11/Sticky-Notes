@@ -23,6 +23,7 @@ import { useState } from "react";
 import api from "@/app/api/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Profile from "./Profile";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -69,7 +70,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="p-2 flex flex-col h-screen">
+    <div className="p-2 flex flex-col justify-between h-screen">
       <div className="flex justify-center items-center">
         <Dialog>
           <DialogTrigger asChild>
@@ -153,6 +154,8 @@ const Sidebar = () => {
           </DialogContent>
         </Dialog>
       </div>
+
+      <Profile />
     </div>
   );
 };
