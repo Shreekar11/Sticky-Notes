@@ -52,7 +52,6 @@ const NoteCard = ({ userNote }: NotesProps) => {
           },
         }
       );
-
       toast.success(response.data.message);
     } catch (err: any) {
       toast.error(err.response.data.message);
