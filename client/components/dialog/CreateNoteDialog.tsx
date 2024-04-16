@@ -1,6 +1,12 @@
 "use client";
 
+import api from "@/app/api/api";
+import { toast } from "sonner";
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+
+// components
 import {
   Dialog,
   DialogContent,
@@ -16,13 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import api from "@/app/api/api";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 const CreateNoteDialog = () => {

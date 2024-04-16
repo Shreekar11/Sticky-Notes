@@ -2,13 +2,13 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
+import { LoginForm } from "@/type";
 import { useAuth } from "@/context/Auth";
 import { useRouter } from "next/navigation";
-import { LoginForm } from "@/type";
 import axios from "axios";
 import Link from "next/link";
 
-// ui components
+// components
 import {
   Card,
   CardContent,

@@ -6,9 +6,9 @@ import { useAuth } from "@/context/Auth";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 // components
-import Profile from "@/components/Profile";
-import InviteButton from "@/components/InviteButton";
+import Profile from "@/components/sidebar/Profile";
 import { Separator } from "@/components/ui/separator";
+import InviteButton from "@/components/sidebar/InviteButton";
 import CreateNoteDialog from "@/components/dialog/CreateNoteDialog";
 
 const Sidebar = () => {

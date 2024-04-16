@@ -1,10 +1,10 @@
 "use client";
 
+import { NoteData } from "@/type";
+import { useAuth } from "@/context/Auth";
+import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
-import { useAuth } from "@/context/Auth";
-import { NoteData } from "@/type";
-import { useEffect, useState } from "react";
 
 const page = () => {
   const { authState: user } = useAuth();
