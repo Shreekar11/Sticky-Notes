@@ -9,11 +9,13 @@ app.use(express.urlencoded({ extended: true }));
 
 const userRoutes = require("../routes/user.routes");
 const noteRoutes = require("../routes/note.routes");
+const adminRoutes = require("../routes/admin.routes")
 
 const port = process.env.PORT;
 
 app.use("/user", userRoutes);
 app.use("/note", noteRoutes);
+app.use("/admin", adminRoutes);
 
 app.get("/", async (req: Request, res: Response) => {
   res.send("Connected successfully!");

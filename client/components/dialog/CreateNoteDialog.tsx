@@ -142,7 +142,7 @@ const CreateNoteDialog = () => {
               onClick={handleCreateNote}
               className="text-[#202123] w-[17rem] sm:w-full rounded-xl bg-[#ffec5f] hover:bg-[#ffe627]"
             >
-              Create Community
+              Create Note
             </Button>
           </DialogFooter>
         </DialogContent>
