@@ -15,9 +15,14 @@ const page = () => {
       const response = await api.get("/note/get-public-notes");
       const data = await response.data.data;
       const filteredNotes = data.filter(
-        (note: NoteData) => note.fk_user !== user.user.user_id
+        (note: NoteData) =>
+          note.fk_user !== user.user.user_id
       );
-      setPublicNotes(filteredNotes);
+
+      const filterAdminNotes = filteredNotes.filter((note: NoteData) => (
+        !note.is_admin
+      ))
+      setPublicNotes(filterAdminNotes);
     } catch (err) {
       console.log("Error: ", err);
     }

@@ -11,12 +11,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import { IoTrashOutline } from "react-icons/io5";
 
 // components
-import { 
-  Card, 
-  CardTitle, 
-  CardContent, 
-  CardHeader 
-} from "@/components/ui/card";
+import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Popover,
   PopoverContent,
@@ -107,9 +102,16 @@ const NoteCard = ({ userNote }: NotesProps) => {
         <CardHeader className="px-4">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start items-start space-y-2">
-              <CardTitle className="text-sm sm:text-lg text-white font-medium">
-                {userNote.title.slice(0, 30)}
-                {userNote.title.length > 30 && "..."}
+              <CardTitle className="text-sm sm:text-lg text-white font-medium flex justify-center items-center gap-4">
+                <>
+                  {userNote.title.slice(0, 30)}
+                  {userNote.title.length > 30 && "..."}
+                </>
+                {userNote.is_admin && (
+                  <p className="text-xs sm:text-sm text-[#ffec5f]">
+                    (admin note)
+                  </p>
+                )}
               </CardTitle>
               <CardTitle
                 className="text-xs sm:text-sm text-zinc-500 text-start 
@@ -148,7 +150,6 @@ const NoteCard = ({ userNote }: NotesProps) => {
 
                       {/* edit note dialog */}
                       <EditNoteDialog note={note[0]} />
-
                     </div>
                   </PopoverContent>
                 </Popover>

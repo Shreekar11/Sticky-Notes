@@ -13,7 +13,10 @@ const getAllNotes = async (req: any, res: any) => {
       message: "Retrived all notes",
     });
   } catch (err: any) {
-    res.status(500).json({ status: false, message: "Internal Server Error" });
+    res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+    });
     console.log("Error: ", err);
   }
 };
@@ -23,7 +26,8 @@ const getUserNotes = async (req: ReqMid, res: any) => {
   console.log(userId);
 
   try {
-    const getQuery: string = "SELECT * FROM notes WHERE fk_user=$1";
+    const getQuery: string =
+      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE fk_user=$1";
     const result: QueryResult<any> = await client.query(getQuery, [userId]);
     if (result.rowCount === 0) {
       return res.status(404).json({
@@ -38,7 +42,10 @@ const getUserNotes = async (req: ReqMid, res: any) => {
       message: `Retrived note with id ${userId}`,
     });
   } catch (err: any) {
-    res.status(500).json({ status: false, message: "Internal Server Error" });
+    res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+    });
     console.log("Error: ", err);
   }
 };
@@ -46,7 +53,8 @@ const getUserNotes = async (req: ReqMid, res: any) => {
 const getPublicNotes = async (req: any, res: any) => {
   try {
     const value: any[] = ["public"];
-    const getQuery: string = "SELECT * FROM notes WHERE privacy=$1";
+    const getQuery: string =
+      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE privacy=$1";
     const result: QueryResult<any> = await client.query(getQuery, value);
     if (result.rowCount === 0) {
       return res.status(404).json({
@@ -101,7 +109,7 @@ const getNote = async (req: any, res: any) => {
 
   try {
     const getQuery: string =
-      "SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
+      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
     const result: QueryResult<any> = await client.query(getQuery, [noteId]);
     if (result.rowCount === 0) {
       return res.status(404).json({

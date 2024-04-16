@@ -40,7 +40,7 @@ const addNote = async (req: any, res: any) => {
 const getAllNotes = async (req: any, res: any) => {
   try {
     const getQuery: string =
-      "SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id";
+      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id";
     const result: QueryResult<any> = await client.query(getQuery);
     console.log(result.rows);
     res.status(200).json({

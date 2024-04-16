@@ -22,6 +22,8 @@ const page = () => {
     getAllNotes();
   }, []);
 
+  console.log(allNotes);
+
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
       <div className="text-[#ffec5f] font-bold text-2xl sm:text-4xl">

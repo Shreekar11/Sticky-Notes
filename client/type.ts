@@ -22,6 +22,7 @@ export type UserCredential = {
 
 export type NoteData = {
   name: string;
+  is_admin: boolean;
   note_id: number;
   fk_user: number;
   title: string;
