@@ -32,12 +32,6 @@ const CreateNoteDialog = () => {
   const [remaining, setRemaining] = useState(200);
 
   const handleCreateNote = async () => {
-    console.log({
-      title,
-      content,
-      privacy,
-    });
-
     if (!title || !content || !privacy) {
       toast.error("All fields required");
       return;
@@ -57,8 +51,10 @@ const CreateNoteDialog = () => {
       toast.success(response.data.message);
       setTitle("");
       setContent("");
-      setPrivacy("Select");
-      router.push("/");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err) {
       console.log("");
     }

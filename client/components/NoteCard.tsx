@@ -43,7 +43,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
 
   const handleChangePrivacy = async () => {
     const newPrivacy = notePrivacy === "public" ? "private" : "public";
-    console.log(newPrivacy);
+
     try {
       const response = await axios.put(
         `${baseURL}/note/edit-privacy/${userNote.note_id}`,
@@ -56,6 +56,10 @@ const NoteCard = ({ userNote }: NotesProps) => {
       );
       setNotePrivacy(newPrivacy);
       toast.success(response.data.message);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err: any) {
       console.log("Error: ", err);
     }
@@ -72,6 +76,9 @@ const NoteCard = ({ userNote }: NotesProps) => {
         }
       );
       toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err: any) {
       toast.error(err.response.data.message);
       console.log("Error: ", err);
@@ -84,8 +91,6 @@ const NoteCard = ({ userNote }: NotesProps) => {
 
     return resultDate;
   };
-
-  console.log(note)
 
   return (
     <div className="">
@@ -104,6 +109,9 @@ const NoteCard = ({ userNote }: NotesProps) => {
                 <div className="flex justify-center items-center gap-2">
                   <LuRefreshCcw className="h-2 w-2 sm:h-4 sm:w-4" />{" "}
                   {convertDate(userNote.updated_at)}
+                </div>
+                <div className="text-xs sm:text-sm text-[#ffec5f]">
+                  {userNote.privacy}
                 </div>
               </CardTitle>
             </div>
@@ -129,7 +137,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
                       <ViewNoteDialog note={note[0]} />
 
                       {/* edit note dialog */}
-                      <EditNoteDialog note={note[0]}/>
+                      <EditNoteDialog note={note[0]} />
 
                       {/* <Dialog>
                       <DialogTrigger asChild>
