@@ -218,10 +218,17 @@ const deleteUser = async (req: any, res: any) => {
 
 const roleChange = async (req: any, res: any) => {
   try {
-    const id = req.params.id;
+    const userId = req.params.userId;
 
-    const query: string = `UPDATE users SET role=$1 WHERE user_id=$2`;
-    const params: any[] = ["admin", id];
+    const userQuery: string = "SELECT is_admin FROM users WHERE user_id=$1";
+    const userParams: any[] = [userId];
+    const userResult: QueryResult<any> = await client.query(userQuery, userParams);
+
+    const role = userResult.rows[0].is_admin;
+    console.log(role);
+
+    const query: string = `UPDATE users SET is_admin=$1 WHERE user_id=$2`;
+    const params: any[] = [!role, userId];
     const result: QueryResult<any> = await client.query(query, params);
 
     res.status(200).json({
