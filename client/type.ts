@@ -9,9 +9,10 @@ export type RegisterForm = {
   password: string;
 };
 export type UserData = {
-  user_id: number | null
+  user_id: number | null;
   name: string | null;
   email: string | null;
+  is_admin: boolean | null;
 };
 
 export type UserCredential = {
@@ -28,7 +29,7 @@ export type NoteData = {
   privacy: string;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type AuthContextType = {
   authState: UserCredential;

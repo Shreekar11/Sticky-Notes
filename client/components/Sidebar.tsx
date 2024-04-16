@@ -4,8 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Profile from "./Profile";
 import CreateNoteDialog from "./dialog/CreateNoteDialog";
+import { useAuth } from "@/context/Auth";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Sidebar = () => {
+  const { authState: user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,9 +22,7 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       >
         <div className="w-6 h-6 relative">
-          <span className="bg-white absolute left-0 top-0 w-full h-0.5"></span>
-          <span className="bg-white absolute left-0 top-1/2 w-full h-0.5"></span>
-          <span className="bg-white absolute left-0 bottom-0 w-full h-0.5"></span>
+          <RxHamburgerMenu className="h-6 w-6 text-white absolute top-3 left-0" />
         </div>
       </div>
 
@@ -36,12 +37,36 @@ const Sidebar = () => {
           <CreateNoteDialog />
 
           <div className="flex justify-start items-start flex-col mt-5 px-3 space-y-4">
-            <Link href="/" className="text-white text-lg">
-              Personel Notes
-            </Link>
-            <Link href="/notes" className="text-white text-lg">
-              Public Notes
-            </Link>
+            {!user.user.is_admin && (
+              <>
+                <Link href="/" className="text-white text-lg">
+                  Personel Notes
+                </Link>
+                <Link href="/public-notes" className="text-white text-lg">
+                  Public Notes
+                </Link>
+              </>
+            )}
+
+            {user.user.is_admin && (
+              <>
+                <Link href="/" className="text-white text-lg">
+                  Personel Notes
+                </Link>
+                <Link href="/notes" className="text-white text-lg">
+                  All Notes
+                </Link>
+                <Link href="/public-notes" className="text-white text-lg">
+                  Public Notes
+                </Link>
+                <Link href="/private-notes" className="text-white text-lg">
+                  Private Notes
+                </Link>
+                <Link href="/users" className="text-white text-lg">
+                  Users
+                </Link>
+              </>
+            )}
           </div>
         </div>
 

@@ -8,35 +8,32 @@ import { useEffect, useState } from "react";
 
 const page = () => {
   const { authState: user } = useAuth();
-  const [publicNotes, setPublicNotes] = useState<NoteData[]>([]);
+  const [privateNotes, setPrivateNotes] = useState<NoteData[]>([]);
 
-  const getPublicNotes = async () => {
+  const getPrivateNotes = async () => {
     try {
-      const response = await api.get("/note/get-public-notes");
+      const response = await api.get("/note/get-private-notes");
       const data = await response.data.data;
-      const filteredNotes = data.filter(
-        (note: NoteData) => note.fk_user !== user.user.user_id
-      );
-      setPublicNotes(filteredNotes);
+      setPrivateNotes(data);
     } catch (err) {
       console.log("Error: ", err);
     }
   };
 
   useEffect(() => {
-    getPublicNotes();
+    getPrivateNotes();
   }, [user]);
 
-  console.log(publicNotes);
+  console.log(privateNotes);
 
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
       <div className="text-[#ffec5f] font-bold text-2xl sm:text-4xl">
-        Public Notes
+        Private Notes
       </div>
-      <div className="flex flex-wrap gap-10">
-        {publicNotes &&
-          publicNotes.map((note, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-10">
+        {privateNotes &&
+          privateNotes.map((note, index) => (
             <NoteCard key={index} userNote={note} />
           ))}
       </div>

@@ -94,12 +94,12 @@ const NoteCard = ({ userNote }: NotesProps) => {
 
   return (
     <div className="">
-      <Card className="w-full max-w-sm sm:max-w-md bg-[#202123] border-[#202123] rounded-2xl">
+      <Card className="w-full max-w-sm sm:max-w-lg bg-[#202123] border-[#202123] rounded-2xl">
         <CardHeader className="px-4">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start items-start space-y-2">
               <CardTitle className="text-sm sm:text-lg text-white font-medium">
-                {userNote.title.slice(0, 25)}...
+                {userNote.title.slice(0, 30)}{userNote.title.length > 30 && "..."}
               </CardTitle>
               <CardTitle
                 className="text-xs sm:text-sm text-zinc-500 text-start 
@@ -115,7 +115,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
                 </div>
               </CardTitle>
             </div>
-            {userNote.fk_user === user.user.user_id ? (
+            {userNote.fk_user === user.user.user_id || user.user.is_admin ? (
               <div className="flex justify-center items-center">
                 <Popover>
                   <PopoverTrigger asChild>
@@ -205,7 +205,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
           </div>
         </CardHeader>
         <CardContent className="text-xs sm:text-sm text-zinc-400">
-          {userNote.content.slice(0, 50)}...
+          {userNote.content.slice(0, 50)}{userNote.content.length > 50 && "..."}
         </CardContent>
       </Card>
     </div>

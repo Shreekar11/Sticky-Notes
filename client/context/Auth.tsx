@@ -27,6 +27,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       user_id: 0,
       name: "",
       email: "",
+      is_admin: false,
     },
   });
 

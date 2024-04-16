@@ -23,11 +23,20 @@ const Home = () => {
 
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
-      <div className="text-[#ffec5f] font-bold text-2xl sm:text-4xl">
-        Personel Notes
-      </div>
-      <div className="flex flex-wrap gap-10">
-        {usersNotes &&
+      {usersNotes.length > 0 && (
+        <div className="text-[#ffec5f] font-bold text-2xl sm:text-4xl">
+          Personel Notes
+        </div>
+      )}
+
+      {usersNotes.length === 0 && (
+        <div className="flex justify-center items-center h-[60vh] text-[#ffec5f] font-semibold text-4xl">
+          Create your first note!
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-10">
+        {usersNotes.length > 0 &&
           usersNotes.map((note, index) => (
             <NoteCard key={index} userNote={note} />
           ))}

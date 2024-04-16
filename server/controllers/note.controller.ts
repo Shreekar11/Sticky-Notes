@@ -61,7 +61,36 @@ const getPublicNotes = async (req: any, res: any) => {
       message: "Retrived all public notes",
     });
   } catch (err: any) {
-    res.status(500).json({ status: false, message: "Internal Server Error" });
+    res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+    });
+    console.log("Error: ", err);
+  }
+};
+
+const getPrivateNotes = async (req: any, res: any) => {
+  try {
+    const value: any[] = ["private"];
+    const getQuery: string = "SELECT * FROM notes WHERE privacy=$1";
+    const result: QueryResult<any> = await client.query(getQuery, value);
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "Notes not found",
+      });
+    }
+    console.log(result.rows);
+    res.status(200).json({
+      status: true,
+      data: result.rows,
+      message: "Retrived all private notes",
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+    });
     console.log("Error: ", err);
   }
 };
@@ -118,7 +147,7 @@ const createNote = async (req: any, res: any) => {
 
 const editNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
- 
+
   const { title, content, privacy } = req.body;
   console.log("new note: ", req.body);
 
@@ -239,6 +268,7 @@ module.exports = {
   getAllNotes,
   getUserNotes,
   getPublicNotes,
+  getPrivateNotes,
   getNote,
   editPrivacy,
   deleteNote,
