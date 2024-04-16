@@ -43,12 +43,36 @@ const getUserNotes = async (req: ReqMid, res: any) => {
   }
 };
 
+const getPublicNotes = async (req: any, res: any) => {
+  try {
+    const value: any[] = ["public"];
+    const getQuery: string = "SELECT * FROM notes WHERE privacy=$1";
+    const result: QueryResult<any> = await client.query(getQuery, value);
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "Notes not found",
+      });
+    }
+    console.log(result.rows);
+    res.status(200).json({
+      status: true,
+      data: result.rows,
+      message: "Retrived all public notes",
+    });
+  } catch (err: any) {
+    res.status(500).json({ status: false, message: "Internal Server Error" });
+    console.log("Error: ", err);
+  }
+};
+
 const getNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
   console.log(noteId);
 
   try {
-    const getQuery: string = "SELECT * FROM notes WHERE note_id=$1";
+    const getQuery: string =
+      "SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
     const result: QueryResult<any> = await client.query(getQuery, [noteId]);
     if (result.rowCount === 0) {
       return res.status(404).json({
@@ -94,7 +118,7 @@ const createNote = async (req: any, res: any) => {
 
 const editNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
-  console.log(noteId);
+ 
   const { title, content, privacy } = req.body;
   console.log("new note: ", req.body);
 
@@ -175,6 +199,7 @@ const editPrivacy = async (req: any, res: any) => {
         created_at: noteResult.rows[0].created_at,
         updated_at: noteResult.rows[0].updated_at,
       },
+      message: "Privacy updated successfully!",
     });
   } catch (err) {
     console.log("Error: ", err);
@@ -184,7 +209,6 @@ const editPrivacy = async (req: any, res: any) => {
 const deleteNote = async (req: ReqMid, res: any) => {
   const noteId = req.params.noteId;
   try {
-
     const noteQuery: string = "SELECT * FROM notes WHERE note_id=$1";
     const noteValue: any[] = [noteId];
     const noteResult: QueryResult<any> = await client.query(
@@ -199,21 +223,22 @@ const deleteNote = async (req: ReqMid, res: any) => {
       status: true,
       data: noteResult.rows[0],
       message: "Note Deleted Successfully!",
-    })
+    });
   } catch (err) {
     res.status(500).json({
       status: false,
       message: "Internal server error",
-    })
+    });
     console.log("Error: ", err);
   }
-}
+};
 
 module.exports = {
   createNote,
   editNote,
   getAllNotes,
   getUserNotes,
+  getPublicNotes,
   getNote,
   editPrivacy,
   deleteNote,

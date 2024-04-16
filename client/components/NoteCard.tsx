@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import ViewNoteDialog from "./dialog/ViewNoteDialog";
+import { useAuth } from "@/context/Auth";
+import EditNoteDialog from "@/components/dialog/EditNoteDialog";
 
 interface NotesProps {
   userNote: NoteData;
@@ -23,6 +25,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
   const token = localStorage.getItem("token");
   const [notePrivacy, setNotePrivacy] = useState(userNote.privacy);
   const [note, setNote] = useState<NoteData[]>([]);
+  const { authState: user } = useAuth();
 
   const getNote = async () => {
     try {
@@ -52,7 +55,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
         }
       );
       setNotePrivacy(newPrivacy);
-      console.log("edit response: ", response);
+      toast.success(response.data.message);
     } catch (err: any) {
       console.log("Error: ", err);
     }
@@ -82,6 +85,8 @@ const NoteCard = ({ userNote }: NotesProps) => {
     return resultDate;
   };
 
+  console.log(note)
+
   return (
     <div className="">
       <Card className="w-full max-w-sm sm:max-w-md bg-[#202123] border-[#202123] rounded-2xl">
@@ -102,27 +107,31 @@ const NoteCard = ({ userNote }: NotesProps) => {
                 </div>
               </CardTitle>
             </div>
-            <div className="flex justify-center items-center">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button>
-                    <IoIosMore className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[10rem] sm:w-[12rem] p-[0.5rem] sm:p-2 bg-[#202123] border-[#474b54] rounded-2xl text-white">
-                  <div className="flex flex-col justify-center items-center">
-                    <Button
-                      onClick={handleChangePrivacy}
-                      className="font-medium leading-none w-full rounded-xl hover:bg-[#17191b]"
-                    >
-                      Change to{" "}
-                      {notePrivacy === "public" ? "private" : "public"}
+            {userNote.fk_user === user.user.user_id ? (
+              <div className="flex justify-center items-center">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button>
+                      <IoIosMore className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                     </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[10rem] sm:w-[12rem] p-[0.5rem] sm:p-2 bg-[#202123] border-[#474b54] rounded-2xl text-white">
+                    <div className="flex flex-col justify-center items-center">
+                      <Button
+                        onClick={handleChangePrivacy}
+                        className="font-medium leading-none w-full rounded-xl hover:bg-[#17191b]"
+                      >
+                        Change to{" "}
+                        {notePrivacy === "public" ? "private" : "public"}
+                      </Button>
 
-                    {/* view note dialog  */}
-                    <ViewNoteDialog note={note[0]} />
+                      {/* view note dialog  */}
+                      <ViewNoteDialog note={note[0]} />
 
-                    {/* <Dialog>
+                      {/* edit note dialog */}
+                      <EditNoteDialog note={note[0]}/>
+
+                      {/* <Dialog>
                       <DialogTrigger asChild>
                         <Button className="hover:bg-[#17191b] w-full rounded-xl ">
                           View Note
@@ -173,13 +182,18 @@ const NoteCard = ({ userNote }: NotesProps) => {
                         </div>
                       </DialogContent>
                     </Dialog> */}
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <Button onClick={handleDelete}>
-                <IoTrashOutline className="h-4 w-4 sm:h-6 sm:w-6 text-red-500" />
-              </Button>
-            </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <Button onClick={handleDelete}>
+                  <IoTrashOutline className="h-4 w-4 sm:h-6 sm:w-6 text-red-500" />
+                </Button>
+              </div>
+            ) : (
+              <div className="text-white">
+                <ViewNoteDialog note={note[0]} />
+              </div>
+            )}
           </div>
         </CardHeader>
         <CardContent className="text-xs sm:text-sm text-zinc-400">

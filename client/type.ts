@@ -9,7 +9,7 @@ export type RegisterForm = {
   password: string;
 };
 export type UserData = {
-  user_id: string | null
+  user_id: number | null
   name: string | null;
   email: string | null;
 };
@@ -20,7 +20,9 @@ export type UserCredential = {
 };
 
 export type NoteData = {
+  name: string;
   note_id: number;
+  fk_user: number;
   title: string;
   content: string;
   privacy: string;

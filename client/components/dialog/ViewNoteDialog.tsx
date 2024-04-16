@@ -1,5 +1,11 @@
 import { NoteData } from "@/type";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
@@ -7,6 +13,14 @@ interface NotesProps {
   note: NoteData;
 }
 const ViewNoteDialog = ({ note }: NotesProps) => {
+
+  const convertDate = (date: any) => {
+    const localDate = new Date(date);
+    const resultDate = localDate.toLocaleDateString();
+
+    return resultDate;
+  };
+
   return (
     <div>
       <Dialog>
@@ -21,6 +35,10 @@ const ViewNoteDialog = ({ note }: NotesProps) => {
             {note ? (
               <>
                 <div className="flex flex-col justify-start items-start gap-2 sm:gap-3">
+                  <DialogHeader className="mb-5">
+                    <DialogTitle className="text-[#ffec5f]">{note.name}</DialogTitle>
+                    <p className="text-xs sm:text-sm text-zinc-500">{convertDate(note.created_at)}</p>
+                  </DialogHeader>
                   <Label
                     htmlFor="title"
                     className="text-right text-md sm:text-lg text-[#ffec5f]"
