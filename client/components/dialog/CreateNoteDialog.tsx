@@ -23,6 +23,7 @@ import { useState } from "react";
 import api from "@/app/api/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 const CreateNoteDialog = () => {
   const router = useRouter();
@@ -110,7 +111,7 @@ const CreateNoteDialog = () => {
                   {remaining - content.length} words remaining
                 </h1>
               </div>
-              <textarea
+              <Textarea
                 id="content"
                 placeholder="Enter content"
                 value={content}

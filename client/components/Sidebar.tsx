@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import Profile from "./Profile";
-import CreateNoteDialog from "./dialog/CreateNoteDialog";
+import { useState } from "react";
 import { useAuth } from "@/context/Auth";
 import { RxHamburgerMenu } from "react-icons/rx";
+
+// components
+import Profile from "@/components/Profile";
+import InviteButton from "@/components/InviteButton";
+import { Separator } from "@/components/ui/separator";
+import CreateNoteDialog from "@/components/dialog/CreateNoteDialog";
 
 const Sidebar = () => {
   const { authState: user } = useAuth();
@@ -36,6 +40,11 @@ const Sidebar = () => {
         <div className="">
           <CreateNoteDialog />
 
+          {user.user.is_admin && <InviteButton />}
+          
+          <Separator className="my-4 bg-zinc-500" />
+
+          {/* note links */}
           <div className="flex justify-start items-start flex-col mt-5 px-3 space-y-4">
             {!user.user.is_admin && (
               <>
