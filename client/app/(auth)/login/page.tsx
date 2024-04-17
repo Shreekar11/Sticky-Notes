@@ -27,22 +27,22 @@ const Login = () => {
   const router = useRouter();
   const { setUserAuthInfo } = useAuth();
   const [userData, setUserData] = useState<LoginForm>({
-    email: "",
+    username: "",
     password: "",
   });
 
   const handleSubmit = async () => {
-    const email = userData.email;
+    const username = userData.username;
     const password = userData.password;
 
-    if (!email || !password) {
+    if (!username || !password) {
       toast.error("All fields required");
       return;
     }
 
     try {
       const response = await axios.post(`${baseURL}/user/signin`, {
-        email: userData.email,
+        username: userData.username,
         password: userData.password,
       });
       toast.success(response.data.message);
@@ -70,15 +70,15 @@ const Login = () => {
               <div className="lg:w-[25rem] grid items-center gap-4">
                 <div className="flex flex-col space-y-2">
                   <div className="">
-                    <Label htmlFor="name">Email Address</Label>
+                    <Label htmlFor="name">Username</Label>
                     <Input
                       id="name"
-                      type="email"
-                      placeholder="Email Address"
+                      type="text"
+                      placeholder="Username"
                       className="mt-2 bg-[#3f4146] border border-gray-400 rounded-xl placeholder:text-gray-400"
-                      value={userData.email}
+                      value={userData.username}
                       onChange={(e) =>
-                        setUserData({ ...userData, email: e.target.value })
+                        setUserData({ ...userData, username: e.target.value })
                       }
                     />
                   </div>

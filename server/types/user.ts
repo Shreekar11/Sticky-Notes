@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 export interface UserBody {
   body: {
-    name: string;
+    username: string;
     email: string;
     password: string;
   };
@@ -10,7 +10,7 @@ export interface UserBody {
 export interface ReqMid extends Request {
   user: {
     user_id: number;
-    name: string;
+    username: string;
     email: string;
     password: string;
   };

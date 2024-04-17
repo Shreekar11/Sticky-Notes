@@ -71,7 +71,7 @@ const Users = () => {
             users.map((user) => (
               <TableRow key={user.user_id}>
                 <TableCell className="font-medium">{user.user_id}</TableCell>
-                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.username}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
                   <Button

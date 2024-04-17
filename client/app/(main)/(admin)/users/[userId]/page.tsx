@@ -30,7 +30,7 @@ const User = () => {
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
       {userNotes.length > 0 && (
         <div className="text-[#ffec5f] font-bold text-2xl sm:text-3xl">
-          {userNotes[0].name} Notes
+          {userNotes[0].username} Notes
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-10">

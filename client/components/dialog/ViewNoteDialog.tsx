@@ -36,7 +36,7 @@ const ViewNoteDialog = ({ note }: NotesProps) => {
               <>
                 <div className="flex flex-col justify-start items-start gap-2 sm:gap-3">
                   <DialogHeader className="mb-5">
-                    <DialogTitle className="text-[#ffec5f]">{note.name}</DialogTitle>
+                    <DialogTitle className="text-[#ffec5f]">{note.username}</DialogTitle>
                     <p className="text-xs sm:text-sm text-zinc-500">{convertDate(note.created_at)}</p>
                   </DialogHeader>
                   <Label

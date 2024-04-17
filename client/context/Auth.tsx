@@ -25,7 +25,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     token: "",
     user: {
       user_id: 0,
-      name: "",
+      username: "",
       email: "",
       is_admin: false,
     },

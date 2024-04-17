@@ -26,7 +26,7 @@ const getUserNotes = async (req: ReqMid, res: any) => {
   console.log(userId);
 
   try {
-    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
       FROM notes AS n 
       JOIN users AS u 
       ON n.fk_user = u.user_id 
@@ -62,7 +62,7 @@ const getPublicNotes = async (req: any, res: any) => {
   const offset = (page - 1) * limit;
 
   try {
-    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
     FROM notes AS n 
     JOIN users 
     AS u ON n.fk_user = u.user_id 
@@ -94,6 +94,7 @@ const getPublicNotes = async (req: any, res: any) => {
 };
 
 const getPrivateNotes = async (req: any, res: any) => {
+  const userId = req.user.user_id;
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
@@ -102,8 +103,9 @@ const getPrivateNotes = async (req: any, res: any) => {
   try {
     const getQuery: string = `SELECT * FROM notes 
     WHERE privacy=$1 
+    AND fk_user!=$2
     LIMIT ${limit} OFFSET ${offset}`;
-    const value: any[] = ["private"];
+    const value: any[] = ["private", userId];
     const result: QueryResult<any> = await client.query(getQuery, value);
 
     if (result.rowCount === 0) {
@@ -131,7 +133,7 @@ const getNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
 
   try {
-    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
       FROM notes AS n 
       JOIN users AS u 
       ON n.fk_user = u.user_id 

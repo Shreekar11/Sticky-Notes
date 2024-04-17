@@ -24,7 +24,7 @@ const getUsersNotes = async (req: any, res: any) => {
   const userId = req.params.userId;
   try {
     const getQuery: string =
-      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
       FROM notes AS n 
       JOIN users AS u 
       ON n.fk_user = u.user_id 
@@ -75,7 +75,7 @@ const getAllNotes = async (req: any, res: any) => {
 
   try {
     const getQuery: string =
-      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
       FROM notes AS n 
       JOIN users AS u ON n.fk_user = u.user_id 
       LIMIT ${limit} OFFSET ${offset}`;
@@ -101,7 +101,7 @@ const getANote = async (req: any, res: any) => {
 
   try {
     const getQuery: string =
-      `SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at 
+      `SELECT n.note_id, n.title, n.content, n.privacy, u.username, n.created_at, n.updated_at 
       FROM notes AS n 
       JOIN users AS u ON n.fk_user = u.user_id 
       WHERE note_id=$1 `;

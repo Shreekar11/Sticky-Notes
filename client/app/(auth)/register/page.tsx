@@ -25,24 +25,24 @@ import { baseURL } from "@/app/api/api";
 const Register = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<RegisterForm>({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
 
   const handleSubmit = async () => {
-    const name = userData.name;
+    const username = userData.username;
     const email = userData.email;
     const password = userData.password;
 
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       toast.error("All fields required");
       return;
     }
 
     try {
       const response = await axios.post(`${baseURL}/user/signup`, {
-        name: userData.name,
+        username: userData.username,
         email: userData.email,
         password: userData.password,
       });
@@ -70,15 +70,15 @@ const Register = () => {
               <div className="lg:w-[25rem] grid w-full items-center gap-4">
                 <div className="flex flex-col space-y-4">
                   <div className="">
-                    <Label htmlFor="name">Full Name</Label>
+                    <Label htmlFor="name">Username</Label>
                     <Input
-                      id="name"
+                      id="username"
                       type="text"
-                      placeholder="Full Name"
+                      placeholder="Enter Username"
                       className="mt-2 bg-[#3f4146] border border-gray-400 rounded-xl placeholder:text-gray-400"
-                      value={userData.name}
+                      value={userData.username}
                       onChange={(e) =>
-                        setUserData({ ...userData, name: e.target.value })
+                        setUserData({ ...userData, username: e.target.value })
                       }
                     />
                   </div>{" "}

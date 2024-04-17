@@ -1,16 +1,16 @@
 export type LoginForm = {
-  email: string;
+  username: string;
   password: string;
 };
 
 export type RegisterForm = {
-  name: string;
+  username: string;
   email: string;
   password: string;
 };
 export type UserData = {
   user_id: number | null;
-  name: string | null;
+  username: string | null;
   email: string | null;
   is_admin: boolean | null;
 };
@@ -21,7 +21,7 @@ export type UserCredential = {
 };
 
 export type NoteData = {
-  name: string;
+  username: string;
   is_admin: boolean;
   note_id: number;
   fk_user: number;

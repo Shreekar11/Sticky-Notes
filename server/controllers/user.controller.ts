@@ -6,14 +6,14 @@ import { generateUserToken } from "../middlewares/user.middlewares";
 import { ReqMid } from "../types/user";
 
 const signup = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
   try {
     const timestamp: string = new Date().toISOString();
     const signupQuery: string =
-      "INSERT INTO users(name, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING name, email, created_at";
+      "INSERT INTO users(username, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING name, email, created_at";
 
     const hashPassword = await bcrypt.hash(password, 10);
-    const values: any[] = [name, email, hashPassword, timestamp, timestamp];
+    const values: any[] = [username, email, hashPassword, timestamp, timestamp];
 
     const result: QueryResult<any> = await client.query(signupQuery, values);
 
@@ -37,11 +37,11 @@ const signup = async (req: Request, res: Response) => {
 };
 
 const signin = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
-    const signinQuery = "SELECT * FROM users WHERE email=$1";
-    const param = [email];
+    const signinQuery = "SELECT * FROM users WHERE username=$1";
+    const param = [username];
     const data: QueryResult<any> = await client.query(signinQuery, param);
 
     if (data.rowCount == 1) {

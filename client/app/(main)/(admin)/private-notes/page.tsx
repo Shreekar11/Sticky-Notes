@@ -24,10 +24,7 @@ const PrivateNotes = () => {
         `/note/get-private-notes?page=${currentPage}&limit=${itemsPerPage}`
       );
       const data = await response.data.data;
-      const filteredNotes = data.filter(
-        (note: NoteData) => note.fk_user !== user.user.user_id
-      );
-      setPrivateNotes(filteredNotes);
+      setPrivateNotes(data);
     } catch (err) {
       console.log("Error: ", err);
     }
