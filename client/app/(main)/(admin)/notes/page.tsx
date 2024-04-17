@@ -10,7 +10,7 @@ import NoteCard from "@/components/NoteCard";
 import { Button } from "@/components/ui/button";
 import { Pagination, PaginationContent } from "@/components/ui/pagination";
 
-const page = () => {
+const Notes = () => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [allNotes, setAllNotes] = useState<NoteData[]>([]);
@@ -72,4 +72,4 @@ const page = () => {
   );
 };
 
-export default isNotAuth(page);
+export default isNotAuth(Notes);

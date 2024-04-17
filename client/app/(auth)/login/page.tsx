@@ -21,10 +21,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import isAuth from "@/context/user/isAuth";
+import { baseURL } from "@/app/api/api";
 
-const baseURL = process.env.NEXT_PUBLIC_BASEURL;
-
-const page = () => {
+const Login = () => {
   const router = useRouter();
   const { setUserAuthInfo } = useAuth();
   const [userData, setUserData] = useState<LoginForm>({
@@ -48,7 +47,6 @@ const page = () => {
       });
       toast.success(response.data.message);
       setUserAuthInfo(response.data);
-      console.log("response:", response);
       router.push("/");
     } catch (err: any) {
       toast.error(err.response.data.message);
@@ -109,7 +107,7 @@ const page = () => {
               Login
             </Button>
             <p className="text-xs">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <span className="text-[#ffec5f]">
                 <Link href="/register">Register</Link>
               </span>
@@ -121,4 +119,4 @@ const page = () => {
   );
 };
 
-export default isAuth(page);
+export default isAuth(Login);

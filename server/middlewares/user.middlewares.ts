@@ -29,7 +29,7 @@ export const isAuthenticated = async (
     const userQuery = `SELECT * FROM users WHERE user_id=$1`;
     const userQueryParams = [userId];
     const userQueryData = await client.query(userQuery, userQueryParams);
-    console.log(userQueryData.rows[0])
+
     req.user = userQueryData.rows[0];
     req.token = token;
     next();

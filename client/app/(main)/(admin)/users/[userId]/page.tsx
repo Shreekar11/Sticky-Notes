@@ -7,7 +7,7 @@ import { NoteData } from "@/type";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const page = () => {
+const User = () => {
   const params = useParams();
   const userId = params.userId;
 
@@ -26,8 +26,6 @@ const page = () => {
     getUserNotes();
   }, []);
 
-  console.log(userNotes);
-
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
       {userNotes.length > 0 && (
@@ -45,4 +43,4 @@ const page = () => {
   );
 };
 
-export default isNotAuth(page);
+export default isNotAuth(User);

@@ -4,12 +4,14 @@ import { NoteData } from "@/type";
 import { useAuth } from "@/context/Auth";
 import { useEffect, useState } from "react";
 import api from "@/app/api/api";
-import NoteCard from "@/components/NoteCard";
 import isNotAuth from "@/context/user/isNotAuth";
-import { Pagination, PaginationContent } from "@/components/ui/pagination";
-import { Button } from "@/components/ui/button";
 
-const page = () => {
+// components
+import NoteCard from "@/components/NoteCard";
+import { Button } from "@/components/ui/button";
+import { Pagination, PaginationContent } from "@/components/ui/pagination";
+
+const PublicNotes = () => {
   const { authState: user } = useAuth();
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,4 +82,4 @@ const page = () => {
   );
 };
 
-export default isNotAuth(page);
+export default isNotAuth(PublicNotes);

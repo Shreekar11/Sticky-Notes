@@ -6,7 +6,7 @@ const getAllNotes = async (req: any, res: any) => {
   try {
     const getQuery: string = "SELECT * FROM notes";
     const result: QueryResult<any> = await client.query(getQuery);
-    console.log(result.rows);
+
     res.status(200).json({
       status: true,
       data: result.rows,
@@ -29,13 +29,14 @@ const getUserNotes = async (req: ReqMid, res: any) => {
     const getQuery: string =
       "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE fk_user=$1";
     const result: QueryResult<any> = await client.query(getQuery, [userId]);
+
     if (result.rowCount === 0) {
       return res.status(404).json({
         status: false,
         message: "Note not found",
       });
     }
-    console.log(result.rows);
+
     res.status(200).json({
       status: true,
       data: result.rows,
@@ -60,13 +61,14 @@ const getPublicNotes = async (req: any, res: any) => {
     const value: any[] = ["public"];
     const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE privacy=$1 LIMIT ${limit} OFFSET ${offset}`;
     const result: QueryResult<any> = await client.query(getQuery, value);
+
     if (result.rowCount === 0) {
       return res.status(404).json({
         status: false,
         message: "Notes not found",
       });
     }
-    console.log(result.rows);
+
     res.status(200).json({
       status: true,
       data: result.rows,
@@ -82,17 +84,23 @@ const getPublicNotes = async (req: any, res: any) => {
 };
 
 const getPrivateNotes = async (req: any, res: any) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+  const offset = (page - 1) * limit;
+
   try {
     const value: any[] = ["private"];
-    const getQuery: string = "SELECT * FROM notes WHERE privacy=$1";
+    const getQuery: string = `SELECT * FROM notes WHERE privacy=$1 LIMIT ${limit} OFFSET ${offset}`;
     const result: QueryResult<any> = await client.query(getQuery, value);
+
     if (result.rowCount === 0) {
       return res.status(404).json({
         status: false,
         message: "Notes not found",
       });
     }
-    console.log(result.rows);
+
     res.status(200).json({
       status: true,
       data: result.rows,
@@ -109,19 +117,19 @@ const getPrivateNotes = async (req: any, res: any) => {
 
 const getNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
-  console.log(noteId);
 
   try {
     const getQuery: string =
       "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
     const result: QueryResult<any> = await client.query(getQuery, [noteId]);
+
     if (result.rowCount === 0) {
       return res.status(404).json({
         status: false,
         message: "Note not found",
       });
     }
-    console.log(result.rows);
+
     res.status(200).json({
       status: true,
       data: result.rows,
@@ -135,8 +143,6 @@ const getNote = async (req: any, res: any) => {
 
 const createNote = async (req: any, res: any) => {
   const { title, content, privacy } = req.body;
-
-  console.log(req.body);
 
   try {
     const timestamp: string = new Date().toISOString();
@@ -161,7 +167,6 @@ const editNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
 
   const { title, content, privacy } = req.body;
-  console.log("new note: ", req.body);
 
   try {
     const previousQuery: string = "SELECT * FROM notes WHERE note_id=$1";
@@ -170,13 +175,13 @@ const editNote = async (req: any, res: any) => {
       previousQuery,
       editParams
     );
+
     if (previousResult.rows.length === 0) {
       return res.status(404).json({
         status: false,
         message: "Note not found",
       });
     }
-    console.log("previous note: ", previousResult.rows[0]);
 
     const timestamp: string = new Date().toISOString();
 
@@ -205,8 +210,6 @@ const editNote = async (req: any, res: any) => {
 const editPrivacy = async (req: any, res: any) => {
   const noteId = req.params.noteId;
   const { privacy } = req.body;
-
-  console.log(req.body);
 
   try {
     const noteQuery: string = "SELECT * FROM notes WHERE note_id=$1";

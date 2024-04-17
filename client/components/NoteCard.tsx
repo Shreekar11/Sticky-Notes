@@ -7,7 +7,6 @@ import api, { baseURL } from "@/app/api/api";
 
 // icons
 import { IoIosMore } from "react-icons/io";
-import { LuRefreshCcw } from "react-icons/lu";
 import { IoTrashOutline } from "react-icons/io5";
 
 // components
@@ -118,10 +117,6 @@ const NoteCard = ({ userNote }: NotesProps) => {
               font-medium flex justify-center items-center gap-2 sm:gap-4"
               >
                 <div className="">{convertDate(userNote.created_at)}</div>
-                <div className="flex justify-center items-center gap-2">
-                  <LuRefreshCcw className="h-2 w-2 sm:h-4 sm:w-4" />{" "}
-                  {convertDate(userNote.updated_at)}
-                </div>
                 <div className="text-xs sm:text-sm text-[#ffec5f]">
                   {userNote.privacy}
                 </div>

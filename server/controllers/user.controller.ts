@@ -43,7 +43,6 @@ const signin = async (req: Request, res: Response) => {
     const signinQuery = "SELECT * FROM users WHERE email=$1";
     const param = [email];
     const data: QueryResult<any> = await client.query(signinQuery, param);
-    console.log("user: ", data.rows[0]);
 
     if (data.rowCount == 1) {
       const auth = await bcrypt.compare(password, data.rows[0].password);
@@ -81,8 +80,6 @@ const logout = async (req: ReqMid, res: any) => {
   if (!req.token) {
     return res.status(404).json({ error: "You are already logged out" });
   }
-
-  console.log(req.token);
 
   try {
     const removeUser: string = "DELETE FROM user_token WHERE token = $1";

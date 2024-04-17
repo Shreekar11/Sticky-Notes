@@ -20,10 +20,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import isAuth from "@/context/user/isAuth";
+import { baseURL } from "@/app/api/api";
 
-const baseURL = process.env.NEXT_PUBLIC_BASEURL;
-
-const page = () => {
+const Register = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<RegisterForm>({
     name: "",
@@ -48,7 +47,6 @@ const page = () => {
         password: userData.password,
       });
       toast.success(response.data.message);
-      console.log("response:", response);
       router.push("/login");
     } catch (err: any) {
       toast.error(err.response.data.message);
@@ -134,4 +132,4 @@ const page = () => {
   );
 };
 
-export default isAuth(page);
+export default isAuth(Register);

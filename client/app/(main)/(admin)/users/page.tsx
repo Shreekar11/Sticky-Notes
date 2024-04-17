@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Users = () => {
 
   const router = useRouter();
   const [users, setUsers] = useState<UserData[]>([]);
@@ -100,4 +100,4 @@ const page = () => {
   );
 };
 
-export default isNotAuth(page);
+export default isNotAuth(Users);
