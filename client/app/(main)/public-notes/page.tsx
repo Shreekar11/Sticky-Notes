@@ -23,11 +23,7 @@ const PublicNotes = () => {
         `/note/get-public-notes?page=${currentPage}&limit=${itemsPerPage}`
       );
       const data = await response.data.data;
-      const filteredNotes = data.filter(
-        (note: NoteData) => note.fk_user !== user.user.user_id
-      );
-
-      const filterAdminNotes = filteredNotes.filter(
+      const filterAdminNotes = data.filter(
         (note: NoteData) => !note.is_admin
       );
       setPublicNotes(filterAdminNotes);
