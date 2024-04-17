@@ -60,7 +60,7 @@ const runApiRequestJob = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 // Schedule the API request job to run every 15 minutes
-cron.schedule("*/15 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
+cron.schedule("* * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     const responseData = yield runApiRequestJob();
     if (responseData) {
         // Process the response data here
