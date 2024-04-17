@@ -141,10 +141,10 @@ const createNote = async (req: any, res: any) => {
   try {
     const timestamp: string = new Date().toISOString();
     const noteQuery: string =
-      "INSERT INTO notes(fk_user, title, content, privacy, created_at) VALUES($1, $2, $3, $4, $5) RETURNING title, content, created_at";
+      "INSERT INTO notes(fk_user, title, content, privacy, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING title, content, created_at, updated_at";
 
     const userId = req.user.user_id;
-    const values = [userId, title, content, privacy, timestamp];
+    const values = [userId, title, content, privacy, timestamp, timestamp];
     const result: QueryResult<any> = await client.query(noteQuery, values);
 
     res.status(200).json({

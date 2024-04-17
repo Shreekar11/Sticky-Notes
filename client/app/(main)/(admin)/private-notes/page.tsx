@@ -15,7 +15,10 @@ const page = () => {
     try {
       const response = await api.get("/note/get-private-notes");
       const data = await response.data.data;
-      setPrivateNotes(data);
+      const filteredNotes = data.filter(
+        (note: NoteData) => note.fk_user !== user.user.user_id
+      );
+      setPrivateNotes(filteredNotes);
     } catch (err) {
       console.log("Error: ", err);
     }

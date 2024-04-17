@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
 import isNotAuth from "@/context/user/isNotAuth";
+import { useAuth } from "@/context/Auth";
 
 const Home = () => {
+  const { authState: user } = useAuth();
   const [usersNotes, setUserNotes] = useState<NoteData[]>([]);
   const getAllUserNotes = async () => {
     try {
@@ -31,8 +33,11 @@ const Home = () => {
       )}
 
       {usersNotes.length === 0 && (
-        <div className="flex justify-center items-center h-[60vh] text-[#ffec5f] font-semibold text-4xl">
-          Create your first note!
+        <div className="flex flex-col space-y-4 justify-center items-center h-[60vh] text-[#ffec5f] font-semibold text-4xl">
+          {user.user.is_admin && <div className="">Welcome to Admin panel</div>}
+          {!user.user.is_admin && (
+            <div className="">Create your first note!</div>
+          )}
         </div>
       )}
 
