@@ -25,7 +25,6 @@ interface NotesProps {
 }
 
 const NoteCard = ({ userNote }: NotesProps) => {
-  const token = localStorage.getItem("token");
   const [notePrivacy, setNotePrivacy] = useState(userNote.privacy);
   const [note, setNote] = useState<NoteData[]>([]);
   const { authState: user } = useAuth();
@@ -53,7 +52,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
         { privacy: newPrivacy },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -74,7 +73,7 @@ const NoteCard = ({ userNote }: NotesProps) => {
         `${baseURL}/note/delete-note/${userNote.note_id}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );

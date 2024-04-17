@@ -26,8 +26,11 @@ const getUserNotes = async (req: ReqMid, res: any) => {
   console.log(userId);
 
   try {
-    const getQuery: string =
-      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE fk_user=$1";
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u 
+      ON n.fk_user = u.user_id 
+      WHERE fk_user=$1`;
     const result: QueryResult<any> = await client.query(getQuery, [userId]);
 
     if (result.rowCount === 0) {
@@ -52,14 +55,21 @@ const getUserNotes = async (req: ReqMid, res: any) => {
 };
 
 const getPublicNotes = async (req: any, res: any) => {
+  const userId = req.user.user_id;
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
   const offset = (page - 1) * limit;
 
   try {
-    const value: any[] = ["public"];
-    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE privacy=$1 LIMIT ${limit} OFFSET ${offset}`;
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+    FROM notes AS n 
+    JOIN users 
+    AS u ON n.fk_user = u.user_id 
+    WHERE privacy=$1 
+    AND n.fk_user != $2 
+    LIMIT ${limit} OFFSET ${offset}`;
+    const value: any[] = ["public", userId];
     const result: QueryResult<any> = await client.query(getQuery, value);
 
     if (result.rowCount === 0) {
@@ -90,8 +100,10 @@ const getPrivateNotes = async (req: any, res: any) => {
   const offset = (page - 1) * limit;
 
   try {
+    const getQuery: string = `SELECT * FROM notes 
+    WHERE privacy=$1 
+    LIMIT ${limit} OFFSET ${offset}`;
     const value: any[] = ["private"];
-    const getQuery: string = `SELECT * FROM notes WHERE privacy=$1 LIMIT ${limit} OFFSET ${offset}`;
     const result: QueryResult<any> = await client.query(getQuery, value);
 
     if (result.rowCount === 0) {
@@ -119,8 +131,11 @@ const getNote = async (req: any, res: any) => {
   const noteId = req.params.noteId;
 
   try {
-    const getQuery: string =
-      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u 
+      ON n.fk_user = u.user_id 
+      WHERE note_id=$1 `;
     const result: QueryResult<any> = await client.query(getQuery, [noteId]);
 
     if (result.rowCount === 0) {
@@ -146,8 +161,9 @@ const createNote = async (req: any, res: any) => {
 
   try {
     const timestamp: string = new Date().toISOString();
-    const noteQuery: string =
-      "INSERT INTO notes(fk_user, title, content, privacy, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING title, content, created_at, updated_at";
+    const noteQuery: string = `INSERT INTO notes(fk_user, title, content, privacy, created_at, updated_at) 
+      VALUES($1, $2, $3, $4, $5, $6) 
+      RETURNING title, content, created_at, updated_at`;
 
     const userId = req.user.user_id;
     const values = [userId, title, content, privacy, timestamp, timestamp];
@@ -195,6 +211,7 @@ const editNote = async (req: any, res: any) => {
       note: {
         noteId,
         title,
+
         content,
         privacy,
         created_at: previousResult.rows[0].created_at,

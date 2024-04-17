@@ -24,7 +24,11 @@ const getUsersNotes = async (req: any, res: any) => {
   const userId = req.params.userId;
   try {
     const getQuery: string =
-      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE fk_user=$1";
+      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u 
+      ON n.fk_user = u.user_id 
+      WHERE fk_user=$1`;
     const result: QueryResult<any> = await client.query(getQuery, [userId]);
     console.log(result.rows);
     res.status(200).json({
@@ -45,7 +49,8 @@ const addNote = async (req: any, res: any) => {
   try {
     const { title, content, privacy } = req.body;
     const timestamp = new Date().toISOString();
-    const insertQuery: string = `INSERT INTO notes(title, content, privacy, created_at, updated_at) VALUES($1, $2, $3, $4, $5)`;
+    const insertQuery: string = `INSERT INTO notes(title, content, privacy, created_at, updated_at) 
+    VALUES($1, $2, $3, $4, $5)`;
     const params: any[] = [title, content, privacy, timestamp, timestamp];
     const result: QueryResult<any> = await client.query(insertQuery, params);
     res.status(200).json({
@@ -70,7 +75,10 @@ const getAllNotes = async (req: any, res: any) => {
 
   try {
     const getQuery: string =
-      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id LIMIT ${limit} OFFSET ${offset}`;
+      `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u ON n.fk_user = u.user_id 
+      LIMIT ${limit} OFFSET ${offset}`;
     const result: QueryResult<any> = await client.query(getQuery);
     console.log(result.rows);
     res.status(200).json({
@@ -93,7 +101,10 @@ const getANote = async (req: any, res: any) => {
 
   try {
     const getQuery: string =
-      "SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
+      `SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u ON n.fk_user = u.user_id 
+      WHERE note_id=$1 `;
     const result: QueryResult<any> = await client.query(getQuery, [noteId]);
     if (result.rowCount === 0) {
       return res.status(404).json({

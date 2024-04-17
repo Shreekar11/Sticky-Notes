@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const Profile = () => {
   const router = useRouter();
-  const { authState: session } = useAuth();
+  const { authState: user } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -28,7 +28,7 @@ const Profile = () => {
         <div className="text-white text-sm sm:text-lg flex flex-col justify-center items-center space-y-2">
           <p>
             Hello,{" "}
-            <span className="text-[#ffec5f]">{session?.user?.name!}</span>
+            <span className="text-[#ffec5f]">{user?.user?.name!}</span>
           </p>
         </div>
       </div>
