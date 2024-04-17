@@ -16,12 +16,12 @@ const db_1 = require("../models/db");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_middlewares_1 = require("../middlewares/user.middlewares");
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     try {
         const timestamp = new Date().toISOString();
-        const signupQuery = "INSERT INTO users(name, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING name, email, created_at";
+        const signupQuery = "INSERT INTO users(username, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING name, email, created_at";
         const hashPassword = yield bcryptjs_1.default.hash(password, 10);
-        const values = [name, email, hashPassword, timestamp, timestamp];
+        const values = [username, email, hashPassword, timestamp, timestamp];
         const result = yield db_1.client.query(signupQuery, values);
         res.status(200).json({
             status: true,
@@ -43,12 +43,11 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     try {
-        const signinQuery = "SELECT * FROM users WHERE email=$1";
-        const param = [email];
+        const signinQuery = "SELECT * FROM users WHERE username=$1";
+        const param = [username];
         const data = yield db_1.client.query(signinQuery, param);
-        console.log("user: ", data.rows[0]);
         if (data.rowCount == 1) {
             const auth = yield bcryptjs_1.default.compare(password, data.rows[0].password);
             if (auth) {
@@ -87,7 +86,6 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.token) {
         return res.status(404).json({ error: "You are already logged out" });
     }
-    console.log(req.token);
     try {
         const removeUser = "DELETE FROM user_token WHERE token = $1";
         const value = [req.token];

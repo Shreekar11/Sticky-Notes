@@ -36,7 +36,6 @@ const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const userQuery = `SELECT * FROM users WHERE user_id=$1`;
         const userQueryParams = [userId];
         const userQueryData = yield db_1.client.query(userQuery, userQueryParams);
-        console.log(userQueryData.rows[0]);
         req.user = userQueryData.rows[0];
         req.token = token;
         next();

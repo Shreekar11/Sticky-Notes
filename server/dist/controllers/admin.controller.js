@@ -32,7 +32,11 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 const getUsersNotes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     try {
-        const getQuery = "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE fk_user=$1";
+        const getQuery = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u 
+      ON n.fk_user = u.user_id 
+      WHERE fk_user=$1`;
         const result = yield db_1.client.query(getQuery, [userId]);
         console.log(result.rows);
         res.status(200).json({
@@ -53,7 +57,8 @@ const addNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title, content, privacy } = req.body;
         const timestamp = new Date().toISOString();
-        const insertQuery = `INSERT INTO notes(title, content, privacy, created_at, updated_at) VALUES($1, $2, $3, $4, $5)`;
+        const insertQuery = `INSERT INTO notes(title, content, privacy, created_at, updated_at) 
+    VALUES($1, $2, $3, $4, $5)`;
         const params = [title, content, privacy, timestamp, timestamp];
         const result = yield db_1.client.query(insertQuery, params);
         res.status(200).json({
@@ -74,7 +79,10 @@ const getAllNotes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const offset = (page - 1) * limit;
     try {
-        const getQuery = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id LIMIT ${limit} OFFSET ${offset}`;
+        const getQuery = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.username, u.is_admin, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u ON n.fk_user = u.user_id 
+      LIMIT ${limit} OFFSET ${offset}`;
         const result = yield db_1.client.query(getQuery);
         console.log(result.rows);
         res.status(200).json({
@@ -95,7 +103,10 @@ const getANote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const noteId = req.params.noteId;
     console.log(noteId);
     try {
-        const getQuery = "SELECT n.note_id, n.title, n.content, n.privacy, u.name, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE note_id=$1 ";
+        const getQuery = `SELECT n.note_id, n.title, n.content, n.privacy, u.username, n.created_at, n.updated_at 
+      FROM notes AS n 
+      JOIN users AS u ON n.fk_user = u.user_id 
+      WHERE note_id=$1 `;
         const result = yield db_1.client.query(getQuery, [noteId]);
         if (result.rowCount === 0) {
             return res.status(404).json({
