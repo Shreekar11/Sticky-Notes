@@ -42,32 +42,32 @@ To install and run this project locally, add the following commands in your term
 
 ## Important
 5. Ensure that the version of Node.js you're using is compatible with the dependencies you're installing. Some dependencies may require specific Node.js versions.
-   Run the below command.
+   Run the below command in `client` and `server` directory.
 
 ```bash
    `npm install -g npm@10.5.2`
 ```
 
-3. Install `dependencies` for the frontend in client folder (assuming you have `Node.js` and `npm` installed):
+6. Install `dependencies` for the frontend in client directory (assuming you have `Node.js` and `npm` installed):
 
 ```bash
    `npm install`
 ```
 
-4. Install `dependencies` for the backend in server folder (assuming you have `Node.js` and `npm` installed):
+7. Install `dependencies` for the backend in server directory (assuming you have `Node.js` and `npm` installed):
 
 ```bash
    `npm install`
 ```
 
-5. Create a .env file in the `client` folder and add backend `api endpoint`:
+8. Create a .env file in the `client` directory and add backend `api endpoint`:
 
    `NEXT_PUBLIC_BASEURL`=`http://localhost:5000` (for local server)
 
    `NEXT_PUBLIC_BASEURL`=`https://sticky-notes-9hjs.onrender.com` (for deployed server)
 
 
-6. Create a .env file in the `server` folder and connect the `postgresql` credentials:
+9. Create a .env file in the `server` directory and connect the `postgresql` credentials:
 
    `PORT`=`5000`
    `HOST`=`ep-misty-darkness-a4sisp1p-pooler.us-east-1.aws.neon.tech`
@@ -75,14 +75,14 @@ To install and run this project locally, add the following commands in your term
    `PASSWORD`=`8har4fbuynAd`
    `DB`=`verceldb`
 
-7. Start the frontend and backend servers:
+8. Start the frontend and backend servers:
 
    client: `npm run dev`
    server: `npm run dev`
 
-8. Open your browser and navigate to `http://localhost:3000` to view the application.
+9. Open your browser and navigate to `http://localhost:3000` to view the application.
 
-9. Here is the `DB` diagram of the application :
+# DB diagram of the application :
 
 ![db](https://github.com/Shreekar11/Sticky-Notes/assets/123613407/59aaee76-78d2-4586-8441-81850340be49)
 
