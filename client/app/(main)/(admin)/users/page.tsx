@@ -17,15 +17,19 @@ import {
   TableHeader,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const page = () => {
+
+  const router = useRouter();
   const [users, setUsers] = useState<UserData[]>([]);
 
   const getAllUsers = async () => {
     try {
       const response = await api.get("/admin/get-all-users");
       const data = await response.data.data;
-      setUsers(data);
+      const adminUsers = data.filter((user: UserData) => !user.is_admin);
+      setUsers(adminUsers);
     } catch (err) {
       console.log("Error: ", err);
     }
@@ -57,6 +61,7 @@ const page = () => {
             <TableHead className="w-[100px]">User Id</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Notes</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Change Role</TableHead>
           </TableRow>
@@ -68,6 +73,14 @@ const page = () => {
                 <TableCell className="font-medium">{user.user_id}</TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => router.push(`/users/${user.user_id}`)}
+                    className="bg-black rounded-xl hover:bg-black"
+                  >
+                    View Notes
+                  </Button>
+                </TableCell>
                 <TableCell className="">
                   {user.is_admin ? "Admin" : "User"}
                 </TableCell>

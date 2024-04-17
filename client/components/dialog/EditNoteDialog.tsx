@@ -45,8 +45,6 @@ const EditNoteDialog = ({ note }: NoteProps) => {
     setPrivacy(value);
   };
 
-  console.log(note);
-
   const handleEditNote = async () => {
     try {
       const response = await axios.put(
@@ -63,6 +61,9 @@ const EditNoteDialog = ({ note }: NoteProps) => {
         }
       );
       toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
       console.log("response: ", response);
     } catch (err) {
       console.log("Error: ", err);
