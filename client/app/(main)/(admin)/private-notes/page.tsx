@@ -5,6 +5,7 @@ import { useAuth } from "@/context/Auth";
 import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
+import isNotAuth from "@/context/admin/isNotAuth";
 
 const page = () => {
   const { authState: user } = useAuth();
@@ -24,8 +25,6 @@ const page = () => {
     getPrivateNotes();
   }, [user]);
 
-  console.log(privateNotes);
-
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
       <div className="text-[#ffec5f] font-bold text-2xl sm:text-4xl">
@@ -41,4 +40,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default isNotAuth(page);

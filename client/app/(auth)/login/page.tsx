@@ -20,6 +20,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import isAuth from "@/context/user/isAuth";
 
 const baseURL = process.env.NEXT_PUBLIC_BASEURL;
 
@@ -120,4 +121,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default isAuth(page);

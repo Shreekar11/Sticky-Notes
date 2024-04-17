@@ -5,6 +5,7 @@ import { UserData } from "@/type";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import api, { baseURL } from "@/app/api/api";
+import isNotAuth from "@/context/admin/isNotAuth";
 
 // components
 import {
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
-const Page = () => {
+const page = () => {
   const [users, setUsers] = useState<UserData[]>([]);
 
   const getAllUsers = async () => {
@@ -86,4 +87,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default isNotAuth(page);

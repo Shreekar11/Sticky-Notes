@@ -4,6 +4,7 @@ import { NoteData } from "@/type";
 import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
+import isNotAuth from "@/context/admin/isNotAuth";
 
 const page = () => {
   const [allNotes, setAllNotes] = useState<NoteData[]>([]);
@@ -12,7 +13,6 @@ const page = () => {
       const response = await api.get("/admin/get-all-notes");
       const data = await response.data.data;
       setAllNotes(data);
-      console.log(data);
     } catch (err) {
       console.log("Error: ", err);
     }
@@ -21,8 +21,6 @@ const page = () => {
   useEffect(() => {
     getAllNotes();
   }, []);
-
-  console.log(allNotes);
 
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
@@ -39,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default isNotAuth(page);

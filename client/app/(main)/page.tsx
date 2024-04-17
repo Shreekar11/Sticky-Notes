@@ -4,6 +4,7 @@ import { NoteData } from "@/type";
 import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
+import isNotAuth from "@/context/user/isNotAuth";
 
 const Home = () => {
   const [usersNotes, setUserNotes] = useState<NoteData[]>([]);
@@ -45,4 +46,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default isNotAuth(Home);

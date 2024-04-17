@@ -5,6 +5,7 @@ import { useAuth } from "@/context/Auth";
 import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
+import isNotAuth from "@/context/user/isNotAuth";
 
 const page = () => {
   const { authState: user } = useAuth();
@@ -50,4 +51,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default isNotAuth(page);
