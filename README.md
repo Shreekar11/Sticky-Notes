@@ -28,17 +28,35 @@ To install and run this project locally, add the following commands in your term
    `cd Sticky-Notes`
 ```
 
-3. Install `dependencies` for the frontend (assuming you have `Node.js` and `npm` installed):
-
+3. Navigate into client:
+   
 ```bash
    `cd client`
+```
+
+4. Navigate into server:
+   
+```bash
+   `cd server`
+```
+
+## Important
+5. Ensure that the version of Node.js you're using is compatible with the dependencies you're installing. Some dependencies may require specific Node.js versions.
+   Run the below command.
+
+```bash
+   `npm install -g npm@10.5.2`
+```
+
+3. Install `dependencies` for the frontend in client folder (assuming you have `Node.js` and `npm` installed):
+
+```bash
    `npm install`
 ```
 
-4. Install `dependencies` for the backend (assuming you have `Node.js` and `npm` installed):
+4. Install `dependencies` for the backend in server folder (assuming you have `Node.js` and `npm` installed):
 
 ```bash
-   `cd server`
    `npm install`
 ```
 
