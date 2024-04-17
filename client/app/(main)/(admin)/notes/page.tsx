@@ -22,7 +22,7 @@ const Notes = () => {
       );
       const data = await response.data.data;
       setAllNotes(data);
-    } catch (err) {
+    } catch (err: any) {
       console.log("Error: ", err);
     }
   };
