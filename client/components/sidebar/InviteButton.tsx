@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const InviteButton = () => {
-  const [inviteLink, setInviteLink] = useState("http://localhost:3000");
+  const [inviteLink, setInviteLink] = useState("https://sticky-notes-liart.vercel.app/");
 
   const handleCopy = async () => {
     try {
