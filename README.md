@@ -51,6 +51,7 @@ To install and run this project locally, add the following commands in your term
 
 6. Create a .env file in the `server` folder and connect the `postgresql` credentials:
 
+   `PORT`=`5000`
    `HOST`=`ep-misty-darkness-a4sisp1p-pooler.us-east-1.aws.neon.tech`
    `USER`=`default`
    `PASSWORD`=`8har4fbuynAd`
