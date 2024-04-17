@@ -9,7 +9,7 @@ The application also consists of `admin` role based, where the `admin` can add, 
 
 # View website
 
-Here is the deployed website : `https://sticky-notes-liart.vercel.app/`
+Here is the deployed website : [Deployed Link](https://sticky-notes-liart.vercel.app/)
 
 # Installation
 
