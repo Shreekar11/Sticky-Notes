@@ -51,10 +51,14 @@ const getUserNotes = async (req: ReqMid, res: any) => {
 };
 
 const getPublicNotes = async (req: any, res: any) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+  const offset = (page - 1) * limit;
+
   try {
     const value: any[] = ["public"];
-    const getQuery: string =
-      "SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE privacy=$1";
+    const getQuery: string = `SELECT n.fk_user, n.note_id, n.title, n.content, n.privacy, u.name, u.is_admin, n.created_at, n.updated_at FROM notes AS n JOIN users AS u ON n.fk_user = u.user_id WHERE privacy=$1 LIMIT ${limit} OFFSET ${offset}`;
     const result: QueryResult<any> = await client.query(getQuery, value);
     if (result.rowCount === 0) {
       return res.status(404).json({

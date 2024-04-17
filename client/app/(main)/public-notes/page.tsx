@@ -6,23 +6,28 @@ import { useEffect, useState } from "react";
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
 import isNotAuth from "@/context/user/isNotAuth";
+import { Pagination, PaginationContent } from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 const page = () => {
   const { authState: user } = useAuth();
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
   const [publicNotes, setPublicNotes] = useState<NoteData[]>([]);
 
   const getPublicNotes = async () => {
     try {
-      const response = await api.get("/note/get-public-notes");
+      const response = await api.get(
+        `/note/get-public-notes?page=${currentPage}&limit=${itemsPerPage}`
+      );
       const data = await response.data.data;
       const filteredNotes = data.filter(
-        (note: NoteData) =>
-          note.fk_user !== user.user.user_id
+        (note: NoteData) => note.fk_user !== user.user.user_id
       );
 
-      const filterAdminNotes = filteredNotes.filter((note: NoteData) => (
-        !note.is_admin
-      ))
+      const filterAdminNotes = filteredNotes.filter(
+        (note: NoteData) => !note.is_admin
+      );
       setPublicNotes(filterAdminNotes);
     } catch (err) {
       console.log("Error: ", err);
@@ -32,6 +37,10 @@ const page = () => {
   useEffect(() => {
     getPublicNotes();
   }, [user]);
+
+  const handlePaginationClick = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <main className="px-[2rem] sm:px-[5rem] mt-5 sm:mt-10 space-y-5 sm:space-y-10">
@@ -45,6 +54,28 @@ const page = () => {
             <NoteCard key={index} userNote={note} />
           ))}
       </div>
+
+      <Pagination>
+        <Button
+          disabled={currentPage === 1}
+          className="text-md sm:text-lg"
+          onClick={() => handlePaginationClick(currentPage - 1)}
+        >
+          Previous
+        </Button>
+
+        <PaginationContent className="text-white">
+          {currentPage}
+        </PaginationContent>
+
+        <Button
+          disabled={publicNotes.length < 10}
+          className="text-md sm:text-lg"
+          onClick={() => handlePaginationClick(currentPage + 1)}
+        >
+          Next
+        </Button>
+      </Pagination>
     </main>
   );
 };
