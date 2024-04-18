@@ -140,10 +140,14 @@ const NoteCard = ({ userNote }: NotesProps) => {
                       </Button>
 
                       {/* view note dialog  */}
-                      <ViewNoteDialog note={note[0]} />
+                      <div className="w-full">
+                        <ViewNoteDialog note={note[0]} />
+                      </div>
 
                       {/* edit note dialog */}
-                      <EditNoteDialog note={note[0]} />
+                      <div className="w-full">
+                        <EditNoteDialog note={note[0]} />
+                      </div>
                     </div>
                   </PopoverContent>
                 </Popover>

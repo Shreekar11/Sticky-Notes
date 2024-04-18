@@ -35,7 +35,7 @@ const InviteButton = () => {
           <Label htmlFor="link" className="">
             Invite Link
           </Label>
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex flex-col sm:flex-row justify-center sm:items-center gap-2">
             <Input
               id="link"
               value={inviteLink}
