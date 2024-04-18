@@ -13,7 +13,6 @@ interface NotesProps {
   note: NoteData;
 }
 const ViewNoteDialog = ({ note }: NotesProps) => {
-
   const convertDate = (date: any) => {
     const localDate = new Date(date);
     const resultDate = localDate.toLocaleDateString();
@@ -36,8 +35,12 @@ const ViewNoteDialog = ({ note }: NotesProps) => {
               <>
                 <div className="flex flex-col justify-start items-start gap-2 sm:gap-3">
                   <DialogHeader className="mb-5">
-                    <DialogTitle className="text-[#ffec5f]">{note.username}</DialogTitle>
-                    <p className="text-xs sm:text-sm text-zinc-500">{convertDate(note.created_at)}</p>
+                    <DialogTitle className="text-[#ffec5f]">
+                      {note.username}
+                    </DialogTitle>
+                    <p className="text-xs sm:text-sm text-zinc-500 text-start">
+                      {convertDate(note.created_at)}
+                    </p>
                   </DialogHeader>
                   <Label
                     htmlFor="title"
