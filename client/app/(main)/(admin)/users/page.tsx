@@ -59,7 +59,7 @@ const Users = () => {
         <TableHeader>
           <TableRow className="text-[#ffec5f]">
             <TableHead className="w-[100px]">User Id</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead>Username</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Notes</TableHead>
             <TableHead>Role</TableHead>

@@ -56,7 +56,7 @@ const PublicNotes = () => {
       <Pagination>
         <Button
           disabled={currentPage === 1}
-          className="text-md sm:text-lg"
+          className="text-md sm:text-lg text-[#ffec5f]"
           onClick={() => handlePaginationClick(currentPage - 1)}
         >
           Previous
@@ -68,7 +68,7 @@ const PublicNotes = () => {
 
         <Button
           disabled={publicNotes.length < 10}
-          className="text-md sm:text-lg"
+          className="text-md sm:text-lg text-[#ffec5f]"
           onClick={() => handlePaginationClick(currentPage + 1)}
         >
           Next
