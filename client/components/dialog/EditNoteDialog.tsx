@@ -46,6 +46,16 @@ const EditNoteDialog = ({ note }: NoteProps) => {
   };
 
   const handleEditNote = async () => {
+    if (!title || !content || !privacy) {
+      toast.error("All fields required");
+      return;
+    }
+
+    if (content.length > 200) {
+      toast.error("Note should be less than 200 words");
+      return;
+    }
+
     try {
       const response = await axios.put(
         `${baseURL}/note/edit-note/${note.note_id}`,
