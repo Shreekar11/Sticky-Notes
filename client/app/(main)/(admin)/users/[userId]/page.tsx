@@ -2,6 +2,7 @@
 
 import api from "@/app/api/api";
 import NoteCard from "@/components/NoteCard";
+import { Skeleton } from "@/components/ui/skeleton";
 import isNotAuth from "@/context/admin/isNotAuth";
 import { NoteData } from "@/type";
 import { useParams } from "next/navigation";
@@ -34,10 +35,24 @@ const User = () => {
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-10">
-        {userNotes.length > 0 &&
+        {userNotes.length > 0 ? (
           userNotes.map((note, index) => (
             <NoteCard key={index} userNote={note} />
-          ))}
+          ))
+        ) : (
+          <div className="flex items-center rounded-xl bg-[#202123] p-2 sm:p-5">
+            <div className="space-y-8">
+              <div className="space-y-2">
+                <Skeleton className="h-3 sm:h-4 w-[250px] bg-[#4e4e51] rounded-xl" />
+                <div className="flex gap-2">
+                  <Skeleton className="h-3 sm:h-4 w-[100px] bg-[#4e4e51] rounded-xl" />
+                  <Skeleton className="h-3 sm:h-4 w-[80px] bg-[#4e4e51] rounded-xl" />
+                </div>
+              </div>
+              <Skeleton className="h-3 sm:h-4 w-[250px] bg-[#4e4e51] rounded-xl" />
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

@@ -1,4 +1,9 @@
+import axios from "axios";
+import { toast } from "sonner";
 import { NoteData } from "@/type";
+import { baseURL } from "@/app/api/api";
+import { useAuth } from "@/context/Auth";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,14 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { Input } from "../ui/input";
-import axios from "axios";
-import { baseURL } from "@/app/api/api";
-import { toast } from "sonner";
-import { useAuth } from "@/context/Auth";
+import { Textarea } from "@/components/ui/textarea";
 
 interface NoteProps {
   note: NoteData;
@@ -122,7 +123,7 @@ const EditNoteDialog = ({ note }: NoteProps) => {
                   {remaining - content.length} words remaining
                 </h1>
               </div>
-              <textarea
+              <Textarea
                 id="content"
                 placeholder="Enter content"
                 value={content}

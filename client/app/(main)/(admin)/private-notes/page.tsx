@@ -10,7 +10,7 @@ import isNotAuth from "@/context/admin/isNotAuth";
 import NoteCard from "@/components/NoteCard";
 import { Button } from "@/components/ui/button";
 import { Pagination, PaginationContent } from "@/components/ui/pagination";
-
+import { Skeleton } from "@/components/ui/skeleton";
 
 const PrivateNotes = () => {
   const { authState: user } = useAuth();
@@ -44,10 +44,24 @@ const PrivateNotes = () => {
         Private Notes
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-10">
-        {privateNotes &&
+        {privateNotes.length > 0 ? (
           privateNotes.map((note, index) => (
             <NoteCard key={index} userNote={note} />
-          ))}
+          ))
+        ) : (
+          <div className="flex items-center rounded-xl bg-[#202123] p-2 sm:p-5">
+            <div className="space-y-8">
+              <div className="space-y-2">
+                <Skeleton className="h-3 sm:h-4 w-[250px] bg-[#4e4e51] rounded-xl" />
+                <div className="flex gap-2">
+                  <Skeleton className="h-3 sm:h-4 w-[100px] bg-[#4e4e51] rounded-xl" />
+                  <Skeleton className="h-3 sm:h-4 w-[80px] bg-[#4e4e51] rounded-xl" />
+                </div>
+              </div>
+              <Skeleton className="h-3 sm:h-4 w-[250px] bg-[#4e4e51] rounded-xl" />
+            </div>
+          </div>
+        )}
       </div>
       <Pagination>
         <Button
