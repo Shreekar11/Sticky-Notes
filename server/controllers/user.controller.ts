@@ -10,7 +10,7 @@ const signup = async (req: Request, res: Response) => {
   try {
     const timestamp: string = new Date().toISOString();
     const signupQuery: string =
-      "INSERT INTO users(username, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING name, email, created_at";
+      "INSERT INTO users(username, email, password, created_at, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING username, email, created_at";
 
     const hashPassword = await bcrypt.hash(password, 10);
     const values: any[] = [username, email, hashPassword, timestamp, timestamp];
